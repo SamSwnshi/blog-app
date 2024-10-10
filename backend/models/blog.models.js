@@ -22,6 +22,10 @@ const blogSchema = mongoose.Schema(
       ref: "User",
       required: true,
     },
+    location:{
+      type: String,
+      required: true,
+    },
    
   },
   { timestamps: true }

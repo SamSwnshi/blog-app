@@ -2,7 +2,7 @@ import Blog from "../models/blog.models.js";
 
 export const createBlogs = async (req, res) => {
   try {
-    const { title, content, subheading } = req.body;
+    const { title, content, subheading,location } = req.body;
     const author = req.user.id;
 
     const newBlog = new Blog({
@@ -10,6 +10,7 @@ export const createBlogs = async (req, res) => {
       content,
       author,
       subheading,
+      location
     });
     await newBlog.save();
     res.status(201).json(newBlog);
