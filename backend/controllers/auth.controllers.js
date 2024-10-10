@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 // Register User
 export const registerUser = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password ,location } = req.body;
 
     if (!username || username.length < 3 || username.length > 10) {
       return res
@@ -37,6 +37,7 @@ export const registerUser = async (req, res) => {
       username,
       email,
       password: hashedPassword,
+      location,
     });
 
     await newUser.save();

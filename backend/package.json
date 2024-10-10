@@ -11,6 +11,7 @@
   "author": "Sameer Suryawanshi",
   "license": "ISC",
   "dependencies": {
+    "@stripe/stripe-js": "^4.8.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
@@ -18,6 +19,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.9.0",
     "mongoose": "^8.7.1",
-    "nodemon": "^3.1.7"
+    "nodemon": "^3.1.7",
+    "stripe": "^17.2.0"
   }
 }
