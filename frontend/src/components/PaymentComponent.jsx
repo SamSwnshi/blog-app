@@ -3,13 +3,13 @@ import { loadStripe } from "@stripe/stripe-js";
 
 const stripePromise = loadStripe(
   "pk_test_51Q8SesJqHXF6YfOYlPtPJQFMHKbZxAtD1B9PJJNV2qlOEJ4vy3azv5VpZVkESAKZcuhcKTZUQa6gSqDyvvWpnmyy00ahLHKGTx"
-); // Replace with your actual publishable key
+); 
 
 const PaymentComponent = ({ onPaymentSuccess }) => {
   const handlePayment = async () => {
     const stripe = await stripePromise;
 
-    // Call your backend to create a checkout session
+
     const response = await fetch(
       "http://localhost:8000/api/create-checkout-session",
       {
@@ -18,14 +18,13 @@ const PaymentComponent = ({ onPaymentSuccess }) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          // Include any required data here
+      
         }),
       }
     );
 
     const session = await response.json();
 
-    // Redirect to Checkout
     const result = await stripe.redirectToCheckout({
       sessionId: session.id,
     });

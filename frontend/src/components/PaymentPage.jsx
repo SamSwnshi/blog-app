@@ -4,13 +4,11 @@ import PaymentComponent from "./PaymentComponent";
 const PaymentPage = () => {
   const [isPaymentSuccessful, setIsPaymentSuccessful] = useState(false);
 
-  // Function to call when payment is successful
   const handlePaymentSuccess = async () => {
     setIsPaymentSuccessful(true);
 
     const blogPost = JSON.parse(localStorage.getItem("blogPost"));
 
-    // Get the token from localStorage (assuming the user is logged in)
     const token = localStorage.getItem("token");
 
     try {

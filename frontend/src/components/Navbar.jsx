@@ -7,15 +7,15 @@ const Navbar = ({ onSearch }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    // Check if the user is logged in by checking for a token and username in localStorage
+    
     const token = localStorage.getItem("token");
     const storedUsername = localStorage.getItem("username");
 
-    console.log("Token:", token); // Debugging: check if token exists
-    console.log("Stored Username:", storedUsername); // Debugging: check if username exists
+    console.log("Token:", token);
+    console.log("Stored Username:", storedUsername); 
 
     if (token && storedUsername) {
-      setUsername(storedUsername); // Set the username if the user is logged in
+      setUsername(storedUsername); 
     }
   }, []);
 
@@ -45,9 +45,9 @@ const Navbar = ({ onSearch }) => {
 
   const handleWriteClick = () => {
     if (!username) {
-      alert("You should login first."); // Alert if not logged in
+      alert("You should login first."); 
     } else {
-      navigate("/create-blog"); // Navigate to create blog if logged in
+      navigate("/create-blog"); 
     }
   };
 

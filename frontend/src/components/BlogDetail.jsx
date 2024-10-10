@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 const BlogDetail = () => {
-  const { id } = useParams(); // Get the post ID from the URL
+  const { id } = useParams();
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     async function fetchBlogPost() {
@@ -14,10 +15,10 @@ const BlogDetail = () => {
           const data = await response.json();
           setPost(data);
         } else {
-          console.error("Failed to fetch blog post details");
+          throw new Error("Failed to fetch blog post details");
         }
       } catch (error) {
-        console.error("Error fetching blog post:", error);
+        setError(error.message);
       } finally {
         setLoading(false);
       }
@@ -27,22 +28,26 @@ const BlogDetail = () => {
   }, [id]);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <p className="text-center text-lg text-gray-500">Loading...</p>; 
+  }
+
+  if (error) {
+    return <p className="text-red-500 text-center">{error}</p>;
   }
 
   if (!post) {
-    return <p>Blog post not found</p>;
+    return <p className="text-center text-lg text-gray-500">Blog post not found</p>;
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl">
-        <h1 className="text-3xl font-bold mb-4">{post.title}</h1>
-        <h2 className="text-xl font-semibold mb-2">
-          By {post.author.username}
+        <h1 className="text-4xl font-bold mb-4 text-gray-800">{post.title}</h1>
+        <h2 className="text-xl font-semibold mb-4 text-gray-600">
+          By <span className="text-gray-800">{post.author?.username}</span>
         </h2>
-        <p className="text-gray-600 mb-4">{post.content}</p>
-        <p className="text-gray-600">Location: {post.location}</p>
+        <p className="text-gray-700 mb-6">{post.content}</p>
+        <p className="text-gray-600 italic">Location: {post.location}</p>
       </div>
     </div>
   );

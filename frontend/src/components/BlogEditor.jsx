@@ -96,10 +96,9 @@ const BlogEditor = () => {
         content: outputData,
       };
 
-      // Save blogPost in localStorage for later use
       localStorage.setItem("blogPost", JSON.stringify(blogPost));
 
-      // Navigate to the payment page
+    
       navigate("/payment");
     }
   };

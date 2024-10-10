@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 
 const Home = ({ searchCountry }) => {
  const navigate = useNavigate()
-  const [originalBlogs, setOriginalBlogs] = useState([]); // State to hold original blogs
-  const [filteredBlogs, setFilteredBlogs] = useState([]); // State to hold filtered blogs
+  const [originalBlogs, setOriginalBlogs] = useState([]);
+  const [filteredBlogs, setFilteredBlogs] = useState([]); 
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const blogsPerPage = 3;
@@ -17,8 +17,8 @@ const Home = ({ searchCountry }) => {
         if (response.ok) {
           const data = await response.json();
           console.log(data);
-          setOriginalBlogs(data); // Store original blogs
-          setFilteredBlogs(data); // Initially show all blogs
+          setOriginalBlogs(data); 
+          setFilteredBlogs(data); 
         } else {
           console.error("Failed to fetch blog posts");
         }
@@ -33,16 +33,16 @@ const Home = ({ searchCountry }) => {
   }, []);
 
   useEffect(() => {
-    // Filter blogs based on searchCountry whenever it changes
+
     if (searchCountry) {
       setFilteredBlogs(originalBlogs.filter(blog =>
         blog.location && blog.location.toLowerCase().includes(searchCountry.toLowerCase())
       ));
-      setCurrentPage(1); // Reset to the first page when filtering
+      setCurrentPage(1); 
     } else {
-      setFilteredBlogs(originalBlogs); // Reset to original blogs when searchCountry is empty
+      setFilteredBlogs(originalBlogs); 
     }
-  }, [searchCountry, originalBlogs]); // Run effect when searchCountry or originalBlogs change
+  }, [searchCountry, originalBlogs]); 
 
   const indexOfLastBlog = currentPage * blogsPerPage;
   const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
