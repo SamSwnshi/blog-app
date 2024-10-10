@@ -2,7 +2,7 @@ import Blog from "../models/blog.models.js";
 
 export const createBlogs = async (req, res) => {
   try {
-    const { title, content, location } = req.body;
+    const { title, content, location ,subheading } = req.body;
     const author = req.user.id;
 
     const newBlog = new Blog({
@@ -10,6 +10,7 @@ export const createBlogs = async (req, res) => {
       content,
       author,
       location,
+      subheading,
     });
     await newBlog.save();
     res.status(201).json(newBlog);
@@ -25,5 +26,22 @@ export const getAllBlogs = async (req, res) => {
     res.json(blogs);
   } catch (error) {
     res.status(500).json({ message: "Error fetching blogs" });
+  }
+};
+
+
+export const getBlogById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const blog = await Blog.findById(id).populate("author", "username email");
+
+    if (!blog) {
+      return res.status(404).json({ message: "Blog not found" });
+    }
+
+    res.json(blog);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error fetching blog post" });
   }
 };

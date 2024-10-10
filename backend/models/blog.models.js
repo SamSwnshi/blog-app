@@ -10,6 +10,10 @@ const blogSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    subheading:{
+      type: String,
+      required: true,
+    },
     image: {
       type: String,
     },
