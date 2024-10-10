@@ -2,16 +2,23 @@ import React, { useState, useEffect, useRef } from "react";
 import EditorJS from "@editorjs/editorjs";
 import Header from "@editorjs/header";
 import List from "@editorjs/list";
+import { useNavigate } from "react-router-dom";
+
+// import { loadStripe } from "@stripe/stripe-js";
 
 const EDITOR_JS_TOOLS = {
   header: Header,
   list: List,
 };
 
+// const stripePromise = loadStripe("API");
+
 const BlogEditor = () => {
   const [title, setTitle] = useState("");
   const [isEditorEmpty, setIsEditorEmpty] = useState(true);
+  const [isPaymentCompleted, setIsPaymentCompleted] = useState(false);
   const editorRef = useRef(null); // Use useRef for the editor instance
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!editorRef.current) {
@@ -32,14 +39,20 @@ const BlogEditor = () => {
       });
     }
 
+    // //Basically checks if payment is completed or not through localStorage.
+    // const paymentStatus = localStorage.getItem('isPaymentCompleted');
+    // setIsPaymentCompleted(paymentStatus === 'true');
+
     // Cleanup function to destroy the editor instance
     return () => {
-      if (editorRef.current && typeof editorRef.current.destroy === 'function') {
+      if (editorRef.current && typeof editorRef.current.destroy === "function") {
         editorRef.current.destroy(); // Ensure the editor is destroyed properly
         editorRef.current = null; // Reset the reference
       }
     };
   }, []);
+
+
 
   const handleSave = async () => {
     if (editorRef.current) {
@@ -49,11 +62,45 @@ const BlogEditor = () => {
           title: title,
           content: outputData,
         };
-        console.log(blogPost);
-        alert("Blog post saved successfully!");
+
+        // Get the token from localStorage (assuming the user is logged in)
+        const token = localStorage.getItem("token");
+
+        // Send the POST request to the backend API using fetch
+        const response = await fetch("http://localhost:5000/api/blogs", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(blogPost),
+        });
+
+        if (response.ok) {
+          alert("Blog post saved successfully!");
+        } else {
+          alert("Failed to save the blog post.");
+        }
       } catch (error) {
         console.error("Saving failed: ", error);
+        alert("An error occurred while saving the blog post.");
       }
+    }
+  };
+
+  const handleProceedToPayment = async () => {
+    if (editorRef.current) {
+      const outputData = await editorRef.current.save();
+      const blogPost = {
+        title: title,
+        content: outputData,
+      };
+
+      // Save blogPost in localStorage for later use
+      localStorage.setItem("blogPost", JSON.stringify(blogPost));
+
+      // Navigate to the payment page
+      navigate("/payment");
     }
   };
 
@@ -64,6 +111,8 @@ const BlogEditor = () => {
       <h1 className="text-3xl font-bold mb-6 text-gray-800">
         Create New Blog Post
       </h1>
+
+      
       <input
         type="text"
         value={title}
@@ -77,7 +126,7 @@ const BlogEditor = () => {
       ></div>
       <div className="flex justify-end">
         <button
-          onClick={handleSave}
+          onClick={handleProceedToPayment}
           disabled={isSaveDisabled}
           className={`py-2 px-6 rounded-lg transition duration-200 flex items-center ${
             isSaveDisabled
@@ -85,19 +134,8 @@ const BlogEditor = () => {
               : "bg-blue-500 text-white hover:bg-blue-600"
           }`}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 mr-2"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fillRule="evenodd"
-              d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z"
-              clipRule="evenodd"
-            />
-          </svg>
-          Save Blog Post
+          
+          Publish Blog Post
         </button>
       </div>
     </div>
