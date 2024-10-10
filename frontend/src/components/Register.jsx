@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
+  const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -20,7 +22,8 @@ const Register = () => {
 
     if (response.ok) {
       alert('User Created Successfully');
-      console.log(data); // handle successful registration
+      console.log(data); 
+      navigate("/login")
     } else {
       alert(data.message);
     }

@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
+
 
 const Login = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -19,7 +22,9 @@ const Login = () => {
 
     if (response.ok) {
       alert('Login Successful');
-      console.log(data); // handle successful login, e.g., store token
+      console.log(data); 
+      navigate("/")
+      // handle successful login, e.g., store token
     } else {
       alert(data.message);
     }
