@@ -31,13 +31,7 @@ const Navbar = ({ onSearch }) => {
   };
 
   const handleSearchSubmit = (event) => {
-    event.preventDefault(); // Prevent page reload
-    // if (onSearch) {
-    //   // onSearch(searchTerm); // Call the search function passed from the parent
-    //   const term = event.target.value;
-    //   setSearchTerm(term);
-    //   onSearch(term);
-    // }
+    event.preventDefault();
 
     onSearch(searchTerm);
     setSearchTerm('');

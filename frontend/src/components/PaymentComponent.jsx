@@ -11,7 +11,7 @@ const PaymentComponent = ({ onPaymentSuccess }) => {
 
 
     const response = await fetch(
-      "http://localhost:8000/api/create-checkout-session",
+      "https://blog-app-2-s8vw.onrender.com/api/create-checkout-session",
       {
         method: "POST",
         headers: {

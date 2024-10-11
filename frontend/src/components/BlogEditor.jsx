@@ -4,25 +4,25 @@ import Header from "@editorjs/header";
 import List from "@editorjs/list";
 import { useNavigate } from "react-router-dom";
 
-// import { loadStripe } from "@stripe/stripe-js";
+
 
 const EDITOR_JS_TOOLS = {
   header: Header,
   list: List,
 };
 
-// const stripePromise = loadStripe("API");
+
 
 const BlogEditor = () => {
   const [title, setTitle] = useState("");
   const [isEditorEmpty, setIsEditorEmpty] = useState(true);
   const [isPaymentCompleted, setIsPaymentCompleted] = useState(false);
-  const editorRef = useRef(null); // Use useRef for the editor instance
+  const editorRef = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!editorRef.current) {
-      // Initialize the editor only if it hasn't been created yet
+    
       editorRef.current = new EditorJS({
         holder: "editorjs",
         tools: EDITOR_JS_TOOLS,
@@ -39,15 +39,11 @@ const BlogEditor = () => {
       });
     }
 
-    // //Basically checks if payment is completed or not through localStorage.
-    // const paymentStatus = localStorage.getItem('isPaymentCompleted');
-    // setIsPaymentCompleted(paymentStatus === 'true');
-
-    // Cleanup function to destroy the editor instance
+    
     return () => {
       if (editorRef.current && typeof editorRef.current.destroy === "function") {
-        editorRef.current.destroy(); // Ensure the editor is destroyed properly
-        editorRef.current = null; // Reset the reference
+        editorRef.current.destroy(); 
+        editorRef.current = null;
       }
     };
   }, []);
@@ -63,11 +59,11 @@ const BlogEditor = () => {
           content: outputData,
         };
 
-        // Get the token from localStorage (assuming the user is logged in)
+        
         const token = localStorage.getItem("token");
 
-        // Send the POST request to the backend API using fetch
-        const response = await fetch("http://localhost:5000/api/blogs", {
+        
+        const response = await fetch("https://blog-app-2-s8vw.onrender.com/api/blogs", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

@@ -13,7 +13,7 @@ const Home = ({ searchCountry }) => {
     const fetchBlogs = async () => {
       setLoading(true);
       try {
-        const response = await fetch("http://localhost:8000/api/blogs");
+        const response = await fetch("https://blog-app-2-s8vw.onrender.com/api/blogs");
         if (response.ok) {
           const data = await response.json();
           console.log(data);
@@ -64,11 +64,7 @@ const Home = ({ searchCountry }) => {
     navigate(`/blog/${id}`);
   };
 
-  // const handleReset = () => {
-  //   // setSearchCountry(""); // Reset search country to empty
-  //   setCurrentPage(1); // Reset to first page
-  // };
-
+ 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-red-900 p-4 tracking-widest">
       <h1 className="text-4xl font-bold mb-6 text-white">Welcome to Inkly</h1>
@@ -120,12 +116,7 @@ const Home = ({ searchCountry }) => {
           Next
         </button>
 
-        {/* <button
-        onClick={handleReset}
-        className="mt-4 bg-red-500 text-white py-2 px-4 rounded"
-      >
-        Reset Filters
-      </button> */}
+      
       </div>
     </div>
   );
